@@ -64,7 +64,7 @@ int    put_map(t_data *data)
 				if (data->map[y][x] != '1' && data->map[y][x] != '0' && data->map[y][x] != 'C'
 					&& data->map[y][x] != 'E' && data->map[y][x] != 'I' && data->map[y][x] != 'P')
 				{
-					ft_printf("\nError\nWrong character in map.ber\n\n");
+					ft_printf("Error : map\nWrong character in map.ber\n");
 					close_window(data);
 					return (-1);
 				}
@@ -121,7 +121,7 @@ char	**load_map(t_data *data)
 	while (line)
 	{
 		if (verification != parsing_lines(line))
-			return (free(line), free_map(map), free(data->mlx_connection), close(fd), NULL);
+			return (free(line), free_map(map), close(fd), NULL); // + free(data->mlx_connection)
 
 		len = ft_strlen(line);
 		if (len > 0 && line[len - 1] == '\n')
@@ -129,12 +129,14 @@ char	**load_map(t_data *data)
 		
 		map[height] = ft_strdup(line);
 		if (!map[height])
-			return (free_map(map), free(line), free(data->mlx_connection), close(fd), NULL);
+			return (free_map(map), free(line), close(fd), NULL); // + free(data->mlx_connection)
 		
 		free(line);
 		height++;
 		line = get_next_line(fd);
 	}
+	data->map_width = len;
+	data->map_height = height;
 	close(fd);
 	map[height] = NULL;
 	return (map);

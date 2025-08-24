@@ -35,6 +35,9 @@ typedef struct s_data
 	int		exit_y;
 	int		exit_x;
 	int		footsteps;
+	int		floodfill;
+	int		map_height;
+	int		map_width;
 
 	void	*img_wall;
 	void	*img_ground;
@@ -67,7 +70,7 @@ void	put_player(t_data *data, int x, int y);
 int		put_map(t_data *data);
 int		key_handler(int keycode, t_data *data);
 void	player_position(t_data *data);
-void	player_mouvement(t_data *data, char *str);
+// void	get_next_position(t_data *data, char *str);
 int		create_window(t_data *data);
 void	n_collectible(t_data *data);
 int     animate_player(t_data *data);
@@ -79,3 +82,7 @@ void	write_on_screen(t_data *data);
 void	enemy_position(t_data *data);
 int		count_enemies(t_data *data);
 void 	you_died(t_data *data);
+int		floodfill(t_data *data, char ** map, int width, int height);
+void	player_position(t_data *data);
+void	update_player_state(t_data *data, int new_x, int new_y);
+void	get_next_position(t_data *data, char *str, int *new_x, int *new_y);

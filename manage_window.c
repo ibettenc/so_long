@@ -32,24 +32,35 @@ int close_window(t_data *data)
     int i;
 
     i = 0 ;
-    mlx_destroy_image(data->mlx_connection, data->img_ground);
-    mlx_destroy_image(data->mlx_connection, data->img_wall);
-    mlx_destroy_image(data->mlx_connection, data->img_collectible);
-    mlx_destroy_image(data->mlx_connection, data->img_exit);
-    while (i < TOTAL_PLAYER_FRAMES)
+    if (data->img_ground)
+        mlx_destroy_image(data->mlx_connection, data->img_ground);
+    if (data->img_wall)
+        mlx_destroy_image(data->mlx_connection, data->img_wall);
+    if (data->img_collectible)
+        mlx_destroy_image(data->mlx_connection, data->img_collectible);
+    if (data->img_exit)
+        mlx_destroy_image(data->mlx_connection, data->img_exit);
+    if (data->img_enemy)
     {
-        mlx_destroy_image(data->mlx_connection, data->img_player[i]);
-        i++;
+        while (i < TOTAL_PLAYER_FRAMES)
+        {
+            mlx_destroy_image(data->mlx_connection, data->img_player[i]);
+            i++;
+        }
+        free(data->img_player);
     }
     i = 0;
-    while (i < TOTAL_ENEMY_FRAMES)
+    if (data->img_enemy)
     {
-        mlx_destroy_image(data->mlx_connection, data->img_enemy[i]);
-        i++;
+        while (i < TOTAL_ENEMY_FRAMES)
+        {
+            mlx_destroy_image(data->mlx_connection, data->img_enemy[i]);
+            i++;
+        }
+        free(data->img_enemy);
     }
-    free(data->img_enemy);
-    free(data->enemy);
-    free(data->img_player);
+    if (data->enemy)
+        free(data->enemy);
     mlx_destroy_window(data->mlx_connection, data->mlx_window);
     mlx_destroy_display(data->mlx_connection);
     free(data->mlx_connection);

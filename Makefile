@@ -30,7 +30,7 @@ LIBFT = libft/libft.a
 SRC = load_map.c put_images.c main.c \
 	ft_printf/ft_print_utils.c ft_printf/ft_printf.c \
 	get_next_line/get_next_line_utils.c get_next_line/get_next_line.c \
-	key_hook.c manage_window.c manage_animations.c
+	key_hook.c manage_window.c manage_animations.c floodfill.c player.c
 
 OBJ = $(SRC:.c=.o)
 

@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include "mlx/mlx.h"
 #include "libft/libft.h"
@@ -32,18 +31,20 @@ int main()
 {
     t_data data;
 
+    ft_memset(&data, 0, sizeof(t_data)); // initialse toute la memoire a zero
     data.mlx_connection = mlx_init();
     if (data.mlx_connection == NULL)
         return (-1);
     data.map = load_map(&data);
     if (!data.map || !data.map[0])
     {
-        ft_printf("Error\nFailed to load map");
+        ft_printf("Error : map\nFailed to load map\n");
+        free(data.mlx_connection);
         return (-1);
     }
     if (create_window(&data) == -1)
     {
-        ft_printf("Error\nFailed to create window");
+        ft_printf("Error : window\nFailed to create window\n");
         return (-1);
     }
     data.n_enemies = count_enemies(&data);
@@ -51,6 +52,13 @@ int main()
     if (!data.enemy)
         return (-1);
     player_position(&data);
+    data.floodfill = floodfill(&data, data.map, data.map_width, data.map_height);
+    if (data.floodfill == 0)
+    {
+        ft_printf("Error : floodfill\nCollectible or Exit are not reachable\n");
+        close_window(&data);
+        return (-1);
+    }
     enemy_position(&data);
     n_collectible(&data);
     data.footsteps = 0;
